@@ -26,6 +26,7 @@ public class MusicPlayer : MonoBehaviour {
     private void Start()
     {
         myAudioSource = GetComponent<AudioSource>();
+        MusicChanger(FindObjectOfType<LevelLoader>().GetSceneIndex());
     }
 
     public void MusicChanger(int levelNumber) //changes music based on scene# being loaded

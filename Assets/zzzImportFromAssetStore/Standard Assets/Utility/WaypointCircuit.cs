@@ -252,7 +252,7 @@ namespace UnityStandardAssets.Utility.Inspector
             bool changedLength = false;
             if (items.arraySize > 0)
             {
-                for (int i = 0; i < items.arraySize; i++)
+                for (int i = 0; i < items.arraySize; i++) //SvB note: edited to prevent arrayindex error,
                 {
                     var item = items.GetArrayElementAtIndex(i);
 

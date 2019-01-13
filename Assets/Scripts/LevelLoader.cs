@@ -25,7 +25,7 @@ public class LevelLoader : MonoBehaviour {
     }
     private void Start()
     {
-        UpdateSceneIndex();
+        SetSceneIndex();
         if (currentSceneIndex == 0)
         {
             StartCoroutine(WaitAndLoadGameLevel());
@@ -35,7 +35,7 @@ public class LevelLoader : MonoBehaviour {
     private void Update()
     {
         if (!sceneUpdated)
-            UpdateSceneIndex();
+            SetSceneIndex();
     }
 
     IEnumerator WaitAndLoadGameLevel()
@@ -74,7 +74,13 @@ public class LevelLoader : MonoBehaviour {
         SceneManager.LoadScene(currentSceneIndex);
     }
 
-    private void UpdateSceneIndex()
+    public int GetSceneIndex()
+    {
+        SetSceneIndex();
+        return currentSceneIndex;
+    }
+
+    private void SetSceneIndex()
     {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
