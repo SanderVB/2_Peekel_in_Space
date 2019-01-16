@@ -148,5 +148,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menuMusic: {fileID: 8300000, guid: a4e66e4c9fd58af49b0db112dd55bf9b, type: 3}
-  levelMusic: {fileID: 8300000, guid: 7ac2e90d765e1ca4dae77097675c78de, type: 3}
+  levelMusic: {fileID: 8300000, guid: 6cac83602f152244fb0e8bf20195e806, type: 3}
   bossMusic: {fileID: 8300000, guid: ff068c7951cd4c64884a9ce6a514d112, type: 3}

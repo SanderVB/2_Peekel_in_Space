@@ -51,4 +51,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58d82525f7723194cab93a81ed8c85cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadDelay: 3
+  loadDelay: 5
