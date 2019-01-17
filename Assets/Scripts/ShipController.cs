@@ -48,7 +48,7 @@ public class ShipController : MonoBehaviour
         float yOffsetThisFrame = speed * yThrow * Time.deltaTime;
         float rawNewyPos = transform.localPosition.y + yOffsetThisFrame;
         transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Clamp(rawNewyPos, -yRange, yRange), transform.localPosition.z);
-    }*/
+    }*/ //seperate methods for handling horizontal & vertical movement
 
     private void Movement()
     {
@@ -73,6 +73,22 @@ public class ShipController : MonoBehaviour
         float pitch = transform.localPosition.y * positionPitchFactor + (yThrow * controlPitchFactor);
         float yaw = transform.localPosition.x * positionYawFactor + (xThrow * controlYawFactor);
         float roll = xThrow * controlRollFactor;
-        transform.localRotation =  Quaternion.Euler(pitch, yaw, roll);
+        transform.localRotation =  Quaternion.Euler(pitch, yaw, roll); //working but not fluid movement
+        //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(pitch, yaw, roll), .1f); //attempt at making movement less jerky, not final
+    }
+
+    private void Rotation_Test()
+    {
+
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Enemy")
+        {
+            Debug.Log("Enemy");
+        }
+        else
+            Debug.Log("triggered");
     }
 }
