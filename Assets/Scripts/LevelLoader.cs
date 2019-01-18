@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour {
 
-    [SerializeField] float loadDelay = 3f;
+    [SerializeField] float loadDelay = 5f;
+    [SerializeField] float respawnDelay = 1f;
     int currentSceneIndex;
     bool sceneUpdated = false;
 
@@ -21,14 +22,13 @@ public class LevelLoader : MonoBehaviour {
         {
             DontDestroyOnLoad(gameObject);
         }
-
     }
     private void Start()
     {
         SetSceneIndex();
         if (currentSceneIndex == 0)
         {
-            StartCoroutine(WaitAndLoadGameLevel());
+            StartCoroutine(WaitAndLoadGameLevel(1, loadDelay));
         }
     }
 
@@ -38,13 +38,50 @@ public class LevelLoader : MonoBehaviour {
             SetSceneIndex();
     }
 
-    IEnumerator WaitAndLoadGameLevel()
+    IEnumerator WaitAndLoadGameLevel(int loadIndex, float newLoadDelay)
     {
-        yield return new WaitForSeconds(loadDelay);
-        LoadNextLevel();
+        yield return new WaitForSeconds(newLoadDelay);
+        SceneManager.LoadScene(loadIndex);
+        FindObjectOfType<MusicPlayer>().MusicChanger(loadIndex);
+        sceneUpdated = false;
     }
 
-    public void LoadNextLevel() //Loads next level and makes music player load corresponding track
+    public void LoadNextlevel()
+    {
+        if (currentSceneIndex < SceneManager.sceneCountInBuildSettings - 1) //prevents 'loading outside of build-index' error & goes back to splash atm
+            StartCoroutine(WaitAndLoadGameLevel(currentSceneIndex + 1, respawnDelay));
+        else
+            WaitAndLoadGameLevel(0, loadDelay);
+    }
+
+    public void LoadPreviousLevel()
+    {
+        if (currentSceneIndex < 1)
+            StartCoroutine(WaitAndLoadGameLevel(currentSceneIndex, loadDelay));
+        else
+            StartCoroutine(WaitAndLoadGameLevel(currentSceneIndex - 1, loadDelay));
+    }
+
+    public void RestartLevel()
+    {
+        StartCoroutine(WaitAndLoadGameLevel(currentSceneIndex, respawnDelay));
+    }
+
+    public int GetSceneIndex()
+    {
+        SetSceneIndex();
+        return currentSceneIndex;
+    }
+
+    private void SetSceneIndex()
+    {
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        sceneUpdated = true;
+        Debug.Log("SceneIndex set: " + currentSceneIndex);
+    }
+
+    //old method of loading
+    /*public void LoadNextLevel() //Loads next level and makes music player load corresponding track
     {
         sceneUpdated = false;
         if (currentSceneIndex < SceneManager.sceneCountInBuildSettings - 1) //prevents 'loading outside of build-index' error & goes back to splash atm
@@ -73,15 +110,5 @@ public class LevelLoader : MonoBehaviour {
         sceneUpdated = false;
         SceneManager.LoadScene(currentSceneIndex);
     }
-
-    public int GetSceneIndex()
-    {
-        SetSceneIndex();
-        return currentSceneIndex;
-    }
-
-    private void SetSceneIndex()
-    {
-        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-    }
+*/
 }

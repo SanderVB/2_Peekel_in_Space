@@ -9,7 +9,6 @@ public class MusicPlayer : MonoBehaviour {
     [SerializeField] AudioClip bossMusic;
     private AudioSource myAudioSource;
 
-    // Use this for initialization
     private void Awake()
     {
         int musicPlayerCount = FindObjectsOfType<MusicPlayer>().Length;
