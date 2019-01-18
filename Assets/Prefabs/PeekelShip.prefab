@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 114876573943983240}
   - component: {fileID: 65643386483249110}
   - component: {fileID: 54142167362977214}
+  - component: {fileID: 114772857521263348}
   m_Layer: 0
   m_Name: PeekelShip
   m_TagString: Untagged
@@ -272,7 +273,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1296643649761806}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.1, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4484868002460708}
@@ -963,6 +964,17 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.57, y: 1.67, z: 3.4273522}
   m_Center: {x: 0.05338615, y: -6.385659e-11, z: -0.20553397}
+--- !u!114 &114772857521263348
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1296643649761806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b32c5be2d1f05e4ea6d42f0fca24f71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114876573943983240
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -974,12 +986,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f0b6cfd0568fc48a9dc674f21815cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  xRange: 3.5
-  yRange: 2
-  positionPitchFactor: -5
+  moveSpeed: 5
+  xRange: 7
+  yRange: 4
+  positionPitchFactor: -3.5
+  positionYawFactor: 5
   controlPitchFactor: -20
-  positionYawFactor: 6.5
   controlYawFactor: 20
   controlRollFactor: -30
 --- !u!198 &198020236059443112
