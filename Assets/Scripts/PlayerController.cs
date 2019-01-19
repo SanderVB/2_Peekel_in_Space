@@ -25,13 +25,21 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject deathFX;
 
     [Header("Weapons")]
-    [SerializeField] GameObject[] weapons;
+    [SerializeField] Transform[] weapons;
+    [SerializeField] ParticleSystem weaponEffect;
     [SerializeField] float firingCooldown = 2f;
 
-    float xThrow, yThrow;
+    float xThrow, yThrow, cooldownTimer;
     bool controlEnabled = true;
     bool firing = false;
+    bool onCooldown = false;
 
+    Coroutine firingCoroutine;
+
+    private void Start()
+    {
+        cooldownTimer = firingCooldown;
+    }
 
     // Update is called once per frame
     void Update()
@@ -42,27 +50,78 @@ public class PlayerController : MonoBehaviour
         {
             Movement();
             RotationFluid();
-
-            if(Input.GetButtonDown("Fire1"))
-            {
-                firing = true;
-                Fire();
-            }
-
-            else if(Input.GetButtonUp("Fire1"))
-            {
-                firing = false;
-            }
+            Fire();
         }
     }
 
     private void Fire()
     {
-        if (firing)
+        if (Input.GetButtonDown("Fire1") && !onCooldown)
         {
-            //add weapon firing
+            onCooldown = true;
+            firingCoroutine = StartCoroutine(FireContiniously());
+        }
+        if (Input.GetButtonUp("Fire1"))
+        {
+            StopCoroutine(firingCoroutine);
+        }
+
+        if(onCooldown)
+        {
+            CooldownTimer();
         }
     }
+
+    private void CooldownTimer()
+    {
+        if (cooldownTimer > 0)
+        {
+            cooldownTimer -= Time.deltaTime;
+        }
+        else
+        {
+            onCooldown = false;
+            cooldownTimer = firingCooldown;
+        }
+    }
+
+    IEnumerator FireContiniously() //written for 2 weapons, needs rewrite if more/less
+    {
+        bool hasFired = false;
+        while (true)
+        {
+            if (!hasFired)
+            {
+                ParticleSystem laser = Instantiate(weaponEffect, weapons[0].position, weapons[0].rotation);
+                laser.Emit(1);
+                hasFired = true;
+                yield return new WaitForSeconds(firingCooldown);
+            }
+            else
+            {
+                ParticleSystem laser = Instantiate(weaponEffect, weapons[1].position, weapons[1].rotation);
+                laser.Emit(1);
+                hasFired = false;
+                yield return new WaitForSeconds(firingCooldown);
+            }
+        }
+    }
+
+
+    /*  private void Fire()
+      {
+          float cooldownTimer;
+           (firing)
+          {
+              Debug.Log("Pew pew");
+              //add weapon firing
+              if (Input.GetButtonUp("Fire1"))
+              {
+                  firing = false;
+                  Debug.Log("stop");
+              }
+          }
+      }*/
 
     /*private void xMovement()
     {
