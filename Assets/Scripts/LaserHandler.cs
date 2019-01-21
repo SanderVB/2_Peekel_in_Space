@@ -11,9 +11,9 @@ public class LaserHandler : MonoBehaviour
 
     private void OnParticleCollision(GameObject other)
     {
-        //explosionLocation = TODO;
+        //TODO: instantiates at 0,0,0 with terrain-collision;
         hit = true;
-        GameObject laserFX = Instantiate(laserExplosion, explosionLocation, Quaternion.identity);
+        GameObject laserFX = Instantiate(laserExplosion, other.transform.position, Quaternion.identity);
         Destroy(laserFX, destroyTimer);
 
     }

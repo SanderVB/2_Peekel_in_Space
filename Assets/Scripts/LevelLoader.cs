@@ -77,38 +77,5 @@ public class LevelLoader : MonoBehaviour {
     {
         currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         sceneUpdated = true;
-        Debug.Log("SceneIndex set: " + currentSceneIndex);
     }
-
-    //old method of loading
-    /*public void LoadNextLevel() //Loads next level and makes music player load corresponding track
-    {
-        sceneUpdated = false;
-        if (currentSceneIndex < SceneManager.sceneCountInBuildSettings - 1) //prevents 'loading outside of build-index' error & goes back to splash atm
-        {
-            SceneManager.LoadScene(currentSceneIndex + 1);
-            FindObjectOfType<MusicPlayer>().MusicChanger(currentSceneIndex + 1);
-        }
-        else
-        {
-            SceneManager.LoadScene(0);
-            FindObjectOfType<MusicPlayer>().MusicChanger(0);
-        }
-    }
-
-        public void LoadPreviousLevel()
-    {
-        sceneUpdated = false;
-        if (currentSceneIndex < 1)
-            SceneManager.LoadScene(currentSceneIndex);
-        else
-            SceneManager.LoadScene(currentSceneIndex - 1);
-    }
-
-    public void RestartLevel()
-    {
-        sceneUpdated = false;
-        SceneManager.LoadScene(currentSceneIndex);
-    }
-*/
 }

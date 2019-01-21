@@ -20,8 +20,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4979892268148038}
   - component: {fileID: 33772980005371904}
-  - component: {fileID: 23296216162406434}
   - component: {fileID: 114318932204464262}
+  - component: {fileID: 23296216162406434}
   m_Layer: 0
   m_Name: enemyBig
   m_TagString: Enemy
@@ -95,7 +95,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0db78c6dd43274e9e9908bf11a2255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 5
+  destroyTimer: 1
+  enemyValue: 5
   deathEffect: {fileID: 1448565795874298, guid: c2593633cf88d014da6f6984ef2068aa,
     type: 2}
   parent: {fileID: 0}
-  destroyTimer: 1

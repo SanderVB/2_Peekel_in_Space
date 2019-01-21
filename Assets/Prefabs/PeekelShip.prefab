@@ -197,6 +197,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1489975806016870
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4404961034779380}
+  m_Layer: 0
+  m_Name: CrosshairTargetFar
+  m_TagString: Untagged
+  m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1502596828308936
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +241,21 @@ GameObject:
   m_Name: Engine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1614251112445194
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4110753732435274}
+  m_Layer: 0
+  m_Name: CrosshairTargetClose
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -325,6 +355,8 @@ Transform:
   - {fileID: 4049340226503104}
   - {fileID: 4646328136754488}
   - {fileID: 4989753053326016}
+  - {fileID: 4110753732435274}
+  - {fileID: 4404961034779380}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 13.5, y: 0, z: 0}
@@ -354,6 +386,19 @@ Transform:
   m_Father: {fileID: 4646328136754488}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 25}
+--- !u!4 &4110753732435274
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1614251112445194}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4035518187911298}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4216630349041416
 Transform:
   m_ObjectHideFlags: 1
@@ -392,6 +437,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4941172585234458}
   m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4404961034779380
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1489975806016870}
+  m_LocalRotation: {x: -0, y: 2.1893042e-10, z: 0.0000000018497341, w: 1}
+  m_LocalPosition: {x: -0.000008106232, y: 0.0000009536743, z: 10}
+  m_LocalScale: {x: 0.99999994, y: 1, z: 0.9999998}
+  m_Children: []
+  m_Father: {fileID: 4035518187911298}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4475016043188878
 Transform:
@@ -1062,7 +1120,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 22c2b87b51bba4c48944e73afda2f492, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.4
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1248,8 +1306,8 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 1, g: 0.018271448, b: 0, a: 1}
-  m_Intensity: 5
-  m_Range: 5
+  m_Intensity: 250
+  m_Range: 0.75
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
@@ -1286,21 +1344,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f0b6cfd0568fc48a9dc674f21815cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  playerHealth: 5
+  moveSpeed: 8
   xRange: 7
   yRange: 4
   positionPitchFactor: -3.5
   positionYawFactor: 5
-  controlPitchFactor: -20
-  controlYawFactor: 20
+  controlPitchFactor: -30
+  controlYawFactor: 30
   controlRollFactor: -30
   deathFX: {fileID: 1703325290710552}
-  weapons:
-  - {fileID: 4049340226503104}
+  weaponLocations:
   - {fileID: 4928647516638880}
-  weaponEffect: {fileID: 198839112193892974, guid: 7ed5a3e13559d2d46ae2a73434bb8b65,
-    type: 2}
-  firingCooldown: 2
+  - {fileID: 4049340226503104}
+  weaponEffects:
+  - {fileID: 198839112193892974, guid: 7ed5a3e13559d2d46ae2a73434bb8b65, type: 2}
+  - {fileID: 198839112193892974, guid: ed8d64f15b01ff44091673b5dffaffe9, type: 2}
+  firingCooldowns:
+  - 2
+  - 0.25
+  damageValues: 0500000001000000
+  projectileHolder: {fileID: 0}
 --- !u!198 &198355813010411202
 ParticleSystem:
   m_ObjectHideFlags: 1

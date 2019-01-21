@@ -6,8 +6,9 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerController : MonoBehaviour
 {
-
+    [Header("Stats values")] [SerializeField] int playerHealth = 5;
     [Tooltip("In m/s")] [SerializeField] float moveSpeed = 10f;
+
     [Header("Range of movement on screen")]
     [SerializeField] float xRange;
     [SerializeField] float yRange;
@@ -24,28 +25,31 @@ public class PlayerController : MonoBehaviour
     [Header("Effects")]
     [SerializeField] GameObject deathFX;
 
-    [Header("Weapons")]
-    [SerializeField] Transform[] weapons;
-    [SerializeField] ParticleSystem weaponEffect;
-    [SerializeField] float firingCooldown = 2f;
+    [Header("Weapons")] //whole weapon select mechanism needs to be rewritten for multiple weapons, this array system isn't handy
+    [SerializeField] Transform[] weaponLocations;
+    [SerializeField] ParticleSystem[] weaponEffects;
+    [SerializeField] float[] firingCooldowns = { 2f, .25f };
+    [SerializeField] int[] damageValues = { 5, 1 };
+    [Tooltip("To prevent the hierarchy from clogging up")] [SerializeField] Transform projectileHolder;
+    int weaponSelected = 0;
 
     float xThrow, yThrow, cooldownTimer;
     bool controlEnabled = true;
     bool firing = false;
     bool onCooldown = false;
+    bool weaponIsSwitching = true;
+    bool rightHasFired = false;
 
     Coroutine firingCoroutine;
 
     private void Start()
     {
-        cooldownTimer = firingCooldown;
+        cooldownTimer = firingCooldowns[weaponSelected];
+        FindObjectOfType<HealthDisplay>().UpdateHealthDisplay(playerHealth);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //xMovement();
-        //yMovement();
         if (controlEnabled)
         {
             Movement();
@@ -59,9 +63,9 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && !onCooldown)
         {
             onCooldown = true;
-            firingCoroutine = StartCoroutine(FireContiniously());
+                firingCoroutine = StartCoroutine(FirePlasmaContiniously());
         }
-        if (Input.GetButtonUp("Fire1"))
+        else if (Input.GetButtonUp("Fire1"))
         {
             StopCoroutine(firingCoroutine);
         }
@@ -70,6 +74,26 @@ public class PlayerController : MonoBehaviour
         {
             CooldownTimer();
         }
+
+        if (Input.GetButtonDown("Fire2") )
+        {
+            WeaponSwitcher();
+            Debug.Log("Selected weapon: " + weaponSelected);
+        }
+    }
+
+    private void WeaponSwitcher()
+    {
+        if (weaponSelected + 1 < weaponEffects.Length)
+        {
+            weaponSelected++;
+        }
+        else
+        {
+            weaponSelected = 0;
+        }
+        cooldownTimer = firingCooldowns[weaponSelected];
+        FindObjectOfType<WeaponDisplay>().WeaponDisplayChanger();
     }
 
     private void CooldownTimer()
@@ -81,47 +105,33 @@ public class PlayerController : MonoBehaviour
         else
         {
             onCooldown = false;
-            cooldownTimer = firingCooldown;
+            cooldownTimer = firingCooldowns[weaponSelected];
         }
     }
 
-    IEnumerator FireContiniously() //written for 2 weapons, needs rewrite if more/less
+    IEnumerator FirePlasmaContiniously() //written for 2 weapons firing one by one, needs rewrite if more/less
     {
-        bool hasFired = false;
         while (true)
         {
-            if (!hasFired)
+            if (!rightHasFired)
             {
-                ParticleSystem laser = Instantiate(weaponEffect, weapons[0].position, weapons[0].rotation);
+                ParticleSystem laser = Instantiate(weaponEffects[weaponSelected], weaponLocations[0].position, weaponLocations[0].rotation);
+                laser.transform.parent = projectileHolder;
                 laser.Emit(1);
-                hasFired = true;
-                yield return new WaitForSeconds(firingCooldown);
+                rightHasFired = true;
+                yield return new WaitForSeconds(firingCooldowns[weaponSelected]);
             }
+
             else
             {
-                ParticleSystem laser = Instantiate(weaponEffect, weapons[1].position, weapons[1].rotation);
+                ParticleSystem laser = Instantiate(weaponEffects[weaponSelected], weaponLocations[1].position, weaponLocations[1].rotation);
+                laser.transform.parent = projectileHolder;
                 laser.Emit(1);
-                hasFired = false;
-                yield return new WaitForSeconds(firingCooldown);
+                rightHasFired = false;
+                yield return new WaitForSeconds(firingCooldowns[weaponSelected]);
             }
         }
     }
-
-
-    /*  private void Fire()
-      {
-          float cooldownTimer;
-           (firing)
-          {
-              Debug.Log("Pew pew");
-              //add weapon firing
-              if (Input.GetButtonUp("Fire1"))
-              {
-                  firing = false;
-                  Debug.Log("stop");
-              }
-          }
-      }*/
 
     /*private void xMovement()
     {
@@ -157,13 +167,12 @@ public class PlayerController : MonoBehaviour
         transform.localPosition = new Vector3(xClamped, yClamped, transform.localPosition.z);
     }
 
-    private void Rotation() 
+    private void Rotation() //working but not fluid movement
     {
         float pitch             = transform.localPosition.y * positionPitchFactor + (yThrow * controlPitchFactor);
         float yaw               = transform.localPosition.x * positionYawFactor + (xThrow * controlYawFactor);
         float roll              = xThrow * controlRollFactor;
-        transform.localRotation =  Quaternion.Euler(pitch, yaw, roll); //working but not fluid movement
-        //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(pitch, yaw, roll), .1f); //attempt at making movement less jerky, not final
+        transform.localRotation =  Quaternion.Euler(pitch, yaw, roll); 
     }
 
     private void RotationFluid() //more fluid form of rotation by using Lerp, and better positional rotation based on position compared to center
@@ -176,13 +185,14 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StartDeathSequence();
-        /*if (other.tag == "Enemy")
+        playerHealth--;
+        FindObjectOfType<HealthDisplay>().UpdateHealthDisplay(playerHealth);
+        if(playerHealth>0)
         {
-            Debug.Log("Enemy");
+            //hurt animation/sound + controls disabled for a short time
         }
         else
-            Debug.Log("triggered");*/
+            StartDeathSequence();
     }
 
     private void StartDeathSequence()
@@ -190,5 +200,20 @@ public class PlayerController : MonoBehaviour
         controlEnabled = false;
         deathFX.SetActive(true);
         FindObjectOfType<LevelLoader>().RestartLevel();
+    }
+
+    public int GetPlayerHealth()
+    {
+        return playerHealth;
+    }
+
+    public int GetDamageValue()
+    {
+        return damageValues[weaponSelected];
+    }
+
+    public int GetWeaponSelected()
+    {
+        return weaponSelected;
     }
 }

@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class MusicPlayer : MonoBehaviour {
 
-    [SerializeField] AudioClip menuMusic;
-    [SerializeField] AudioClip levelMusic;
-    [SerializeField] AudioClip bossMusic;
+    [SerializeField] AudioClip[] levelMusic;
     private AudioSource myAudioSource;
 
     private void Awake()
@@ -30,7 +28,10 @@ public class MusicPlayer : MonoBehaviour {
 
     public void MusicChanger(int levelNumber) //changes music based on scene# being loaded
     {
-        switch (levelNumber)
+        myAudioSource.clip = levelMusic[levelNumber];
+        myAudioSource.Play();
+
+        /*switch (levelNumber)
         {
             case 0:
                 myAudioSource.clip = menuMusic;
@@ -44,7 +45,6 @@ public class MusicPlayer : MonoBehaviour {
             default:
                 myAudioSource.clip = levelMusic;
                 break;
-        }
-        myAudioSource.Play();
+        }*/
     }
 }

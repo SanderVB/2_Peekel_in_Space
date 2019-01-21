@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b43b7dc31c6182447ac5e1e7abe762b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuMusic: {fileID: 8300000, guid: a4e66e4c9fd58af49b0db112dd55bf9b, type: 3}
-  levelMusic: {fileID: 8300000, guid: 6cac83602f152244fb0e8bf20195e806, type: 3}
-  bossMusic: {fileID: 8300000, guid: ff068c7951cd4c64884a9ce6a514d112, type: 3}
+  levelMusic:
+  - {fileID: 8300000, guid: a4e66e4c9fd58af49b0db112dd55bf9b, type: 3}
+  - {fileID: 8300000, guid: 6cac83602f152244fb0e8bf20195e806, type: 3}
+  - {fileID: 8300000, guid: ff068c7951cd4c64884a9ce6a514d112, type: 3}
