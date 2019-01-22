@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 199016666951390532}
   - component: {fileID: 114972148303957286}
   - component: {fileID: 82917145673082602}
-  - component: {fileID: 114157906818127120}
   m_Layer: 0
   m_Name: Plasma
   m_TagString: Untagged
@@ -139,20 +138,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &114157906818127120
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1538953155166402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a01994f64e801b41bb498a02163704b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  destroyTimer: 1
-  laserExplosion: {fileID: 1448565795874298, guid: 614ade42175f48942bbb9614fa4a567d,
-    type: 2}
 --- !u!114 &114972148303957286
 MonoBehaviour:
   m_ObjectHideFlags: 1

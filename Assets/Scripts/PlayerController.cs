@@ -31,8 +31,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float[] firingCooldowns = { 2f, .25f };
     [SerializeField] int[] damageValues = { 5, 1 };
     [Tooltip("To prevent the hierarchy from clogging up")] [SerializeField] Transform projectileHolder;
-    int weaponSelected = 0;
-
+    int selectedWeapon = 0;
+    
     float xThrow, yThrow, cooldownTimer;
     bool controlEnabled = true;
     bool firing = false;
@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        cooldownTimer = firingCooldowns[weaponSelected];
+        cooldownTimer = firingCooldowns[selectedWeapon];
         FindObjectOfType<HealthDisplay>().UpdateHealthDisplay(playerHealth);
     }
 
@@ -63,7 +63,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && !onCooldown)
         {
             onCooldown = true;
-                firingCoroutine = StartCoroutine(FirePlasmaContiniously());
+            firingCoroutine = StartCoroutine(FirePlasmaContiniously());
         }
         else if (Input.GetButtonUp("Fire1"))
         {
@@ -78,21 +78,21 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire2") )
         {
             WeaponSwitcher();
-            Debug.Log("Selected weapon: " + weaponSelected);
+            Debug.Log("Selected weapon: " + selectedWeapon);
         }
     }
 
     private void WeaponSwitcher()
     {
-        if (weaponSelected + 1 < weaponEffects.Length)
+        if (selectedWeapon + 1 < weaponEffects.Length)
         {
-            weaponSelected++;
+            selectedWeapon++;
         }
         else
         {
-            weaponSelected = 0;
+            selectedWeapon = 0;
         }
-        cooldownTimer = firingCooldowns[weaponSelected];
+        cooldownTimer = firingCooldowns[selectedWeapon];
         FindObjectOfType<WeaponDisplay>().WeaponDisplayChanger();
     }
 
@@ -105,30 +105,30 @@ public class PlayerController : MonoBehaviour
         else
         {
             onCooldown = false;
-            cooldownTimer = firingCooldowns[weaponSelected];
+            cooldownTimer = firingCooldowns[selectedWeapon];
         }
     }
 
-    IEnumerator FirePlasmaContiniously() //written for 2 weapons firing one by one, needs rewrite if more/less
+    IEnumerator FirePlasmaContiniously() //written for 2 weapon placements firing one by one, needs rewrite if more/less
     {
         while (true)
         {
             if (!rightHasFired)
             {
-                ParticleSystem laser = Instantiate(weaponEffects[weaponSelected], weaponLocations[0].position, weaponLocations[0].rotation);
-                laser.transform.parent = projectileHolder;
-                laser.Emit(1);
+                ParticleSystem weapon = Instantiate(weaponEffects[selectedWeapon], weaponLocations[0].position, weaponLocations[0].rotation);
+                weapon.transform.parent = projectileHolder;
+                weapon.Emit(1);
                 rightHasFired = true;
-                yield return new WaitForSeconds(firingCooldowns[weaponSelected]);
+                yield return new WaitForSeconds(firingCooldowns[selectedWeapon]);
             }
 
             else
             {
-                ParticleSystem laser = Instantiate(weaponEffects[weaponSelected], weaponLocations[1].position, weaponLocations[1].rotation);
-                laser.transform.parent = projectileHolder;
-                laser.Emit(1);
+                ParticleSystem weapon = Instantiate(weaponEffects[selectedWeapon], weaponLocations[1].position, weaponLocations[1].rotation);
+                weapon.transform.parent = projectileHolder;
+                weapon.Emit(1);
                 rightHasFired = false;
-                yield return new WaitForSeconds(firingCooldowns[weaponSelected]);
+                yield return new WaitForSeconds(firingCooldowns[selectedWeapon]);
             }
         }
     }
@@ -209,11 +209,11 @@ public class PlayerController : MonoBehaviour
 
     public int GetDamageValue()
     {
-        return damageValues[weaponSelected];
+        return damageValues[selectedWeapon];
     }
 
     public int GetWeaponSelected()
     {
-        return weaponSelected;
+        return selectedWeapon;
     }
 }

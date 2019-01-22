@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserHandler : MonoBehaviour
+public class ProjectileHandler : MonoBehaviour
 {
     Vector3 explosionLocation;
     [SerializeField] float destroyTimer = 1f;
@@ -12,10 +12,13 @@ public class LaserHandler : MonoBehaviour
     private void OnParticleCollision(GameObject other)
     {
         //TODO: instantiates at 0,0,0 with terrain-collision;
-        hit = true;
-        GameObject laserFX = Instantiate(laserExplosion, other.transform.position, Quaternion.identity);
-        Destroy(laserFX, destroyTimer);
-
+        if (!hit)
+        {
+            hit = true;
+            GameObject laserFX = Instantiate(laserExplosion, other.transform.position, Quaternion.identity);
+            Debug.Log("Col. pos.: " + other.transform.position);
+            Destroy(laserFX, destroyTimer);
+        }
     }
 
     private void Update()
