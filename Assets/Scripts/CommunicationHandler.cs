@@ -13,11 +13,21 @@ public class CommunicationHandler : MonoBehaviour
     [SerializeField][Range(0,1)] float messageVolume = .5f;
     [SerializeField] float writeTime = .05f;
     CommunicationMessage messageHolder;
+    AudioSource messageAudio;
     AudioClip audioHolder;
 
     private void OnEnable()
     {
         MessageChanger();
+    }
+
+    private void AudioChanger()
+    {
+        messageAudio = GetComponent<AudioSource>();
+        messageAudio.volume = messageVolume;
+
+        messageAudio.clip = messageHolder.GetMessageAudio();
+        messageAudio.Play();
     }
 
     public void MessageChanger()
@@ -33,6 +43,7 @@ public class CommunicationHandler : MonoBehaviour
         }
         //textToChange.text = messageHolder.GetMessage();
         StartCoroutine(WriteTextOneByOne(messageHolder.GetMessage()));
+        AudioChanger();
     }
 
     private IEnumerator WriteTextOneByOne(string message)

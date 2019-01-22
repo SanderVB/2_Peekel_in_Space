@@ -12,6 +12,8 @@ public class CommunicationMessage : ScriptableObject
 
     public string GetMessage() { return messageText; }
 
+    public AudioClip GetMessageAudio() { return messageSound; }
+
     public CommunicationMessage GetNextMessage() { return nextMessage; }
 
 }

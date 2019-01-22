@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33772980005371904}
   - component: {fileID: 114318932204464262}
   - component: {fileID: 23296216162406434}
+  - component: {fileID: 65625868525118972}
   m_Layer: 0
   m_Name: enemyBig
   m_TagString: Enemy
@@ -36,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1238853017409262}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 458.039, y: 27.371048, z: 817.565}
   m_LocalScale: {x: 20, y: 20, z: 20}
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,6 +85,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1238853017409262}
   m_Mesh: {fileID: 4300014, guid: ec2ed6fafcc53c64ba923b9ef7d5749f, type: 3}
+--- !u!65 &65625868525118972
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238853017409262}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.88, y: 0.35, z: 0.6766173}
+  m_Center: {x: 0, y: 0.000000014901161, z: 0}
 --- !u!114 &114318932204464262
 MonoBehaviour:
   m_ObjectHideFlags: 1
