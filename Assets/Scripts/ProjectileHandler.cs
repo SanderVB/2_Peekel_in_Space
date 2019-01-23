@@ -15,7 +15,7 @@ public class ProjectileHandler : MonoBehaviour
         if (!hit)
         {
             hit = true;
-            GameObject laserFX = Instantiate(laserExplosion, other.transform.position, Quaternion.identity);
+            var laserFX = Instantiate(laserExplosion, other.transform.position, Quaternion.identity);
             Debug.Log("Col. pos.: " + other.transform.position);
             Destroy(laserFX, destroyTimer);
         }

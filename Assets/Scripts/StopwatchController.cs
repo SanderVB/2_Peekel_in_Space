@@ -28,5 +28,9 @@ public class StopwatchController : MonoBehaviour {
             timer = 0;
         }
         timerText.text = String.Format("{0:00}:{1:00.00}", minutes, timer);
+
+        /* used to copy values for smooth transition from intro to gameplay
+        if (timer>3)
+        { Debug.LogError("Copy de waardes van camera"); }*/
     }
 }

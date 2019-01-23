@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Name: 1b
   m_EditorClassIdentifier: 
   messageText: Superster bij de trooohooos
-  nextMessage: {fileID: 0}
+  nextMessage: {fileID: 11400000, guid: 91010849c8419ae47bfd33db1db986a0, type: 2}
   messageSound: {fileID: 8300000, guid: 6d61a3507a368bf46ae0de10de0d3250, type: 3}

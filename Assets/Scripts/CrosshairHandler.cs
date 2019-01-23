@@ -15,7 +15,11 @@ public class CrosshairHandler : MonoBehaviour
 
     void Update()
     {
-        Vector3 screenPos = cam.WorldToScreenPoint(crosshairTarget.position);
-        transform.position = screenPos;
+        try
+        {
+            Vector3 screenPos = cam.WorldToScreenPoint(crosshairTarget.position);
+            transform.position = screenPos;
+        }
+        catch { Debug.Log("crosshair trying to move while object is destroyed/can't pass transform"); }
     }
 }

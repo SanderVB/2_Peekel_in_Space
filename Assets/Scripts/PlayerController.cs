@@ -7,25 +7,29 @@ using UnityStandardAssets.CrossPlatformInput;
 public class PlayerController : MonoBehaviour
 {
     [Header("Stats values")] [SerializeField] int playerHealth = 5;
-    [Tooltip("In m/s")] [SerializeField] float moveSpeed = 10f;
+    [Tooltip("In m/s")] [SerializeField] float moveSpeed = 8f;
+    [SerializeField] float deathDelay = 1f;
+    [SerializeField] float hurtCooldown = 1f;
+    [SerializeField] float waitToStart = 3f;
 
     [Header("Range of movement on screen")]
-    [SerializeField] float xRange;
-    [SerializeField] float yRange;
+    [SerializeField] float xRange = 7f;
+    [SerializeField] float yRange = 4f;
 
     [Header("Screen-position based")]
     [Tooltip("Change these if Z-position is changed")] [SerializeField] float positionPitchFactor = -3.5f;
     [Tooltip("Change these if Z-position is changed")] [SerializeField] float positionYawFactor = 5f;
 
     [Header("Control-throw based")]
-    [SerializeField] float controlPitchFactor = -20f;
-    [SerializeField] float controlYawFactor = 20f;
+    [SerializeField] float controlPitchFactor = -30f;
+    [SerializeField] float controlYawFactor = 30;
     [SerializeField] float controlRollFactor = -30f;
 
     [Header("Effects")]
     [SerializeField] GameObject deathFX;
+    [SerializeField] GameObject hurtFX;
 
-    [Header("Weapons")] //whole weapon select mechanism needs to be rewritten for multiple weapons, this array system isn't handy
+    [Header("Weapons")] //whole weapon select mechanism needs to be rewritten, this array system isn't handy
     [SerializeField] Transform[] weaponLocations;
     [SerializeField] ParticleSystem[] weaponEffects;
     [SerializeField] float[] firingCooldowns = { 2f, .25f };
@@ -46,6 +50,17 @@ public class PlayerController : MonoBehaviour
     {
         cooldownTimer = firingCooldowns[selectedWeapon];
         FindObjectOfType<HealthDisplay>().UpdateHealthDisplay(playerHealth);
+        StartCoroutine(WaitToStart());
+    }
+
+    private IEnumerator WaitToStart()
+    {
+        controlEnabled = false;
+        var myWaypointFollower = GetComponentInParent<BetterWaypointFollower>();
+        myWaypointFollower.enabled = false;
+        yield return new WaitForSeconds(waitToStart);
+        myWaypointFollower.enabled = true;
+        controlEnabled = true;
     }
 
     void Update()
@@ -60,14 +75,15 @@ public class PlayerController : MonoBehaviour
 
     private void Fire()
     {
-        if (Input.GetButtonDown("Fire1") && !onCooldown)
+        if (Input.GetButtonDown("Fire1") && !onCooldown && controlEnabled)
         {
             onCooldown = true;
             firingCoroutine = StartCoroutine(FirePlasmaContiniously());
         }
-        else if (Input.GetButtonUp("Fire1"))
+        else if (Input.GetButtonUp("Fire1") || !controlEnabled)
         {
-            StopCoroutine(firingCoroutine);
+            if(firingCoroutine!=null)
+                StopCoroutine(firingCoroutine);
         }
 
         if(onCooldown)
@@ -78,7 +94,6 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire2") )
         {
             WeaponSwitcher();
-            Debug.Log("Selected weapon: " + selectedWeapon);
         }
     }
 
@@ -92,6 +107,7 @@ public class PlayerController : MonoBehaviour
         {
             selectedWeapon = 0;
         }
+
         cooldownTimer = firingCooldowns[selectedWeapon];
         FindObjectOfType<WeaponDisplay>().WeaponDisplayChanger();
     }
@@ -115,7 +131,7 @@ public class PlayerController : MonoBehaviour
         {
             if (!rightHasFired)
             {
-                ParticleSystem weapon = Instantiate(weaponEffects[selectedWeapon], weaponLocations[0].position, weaponLocations[0].rotation);
+                var weapon = Instantiate(weaponEffects[selectedWeapon], weaponLocations[0].position, weaponLocations[0].rotation);
                 weapon.transform.parent = projectileHolder;
                 weapon.Emit(1);
                 rightHasFired = true;
@@ -124,7 +140,7 @@ public class PlayerController : MonoBehaviour
 
             else
             {
-                ParticleSystem weapon = Instantiate(weaponEffects[selectedWeapon], weaponLocations[1].position, weaponLocations[1].rotation);
+                var weapon = Instantiate(weaponEffects[selectedWeapon], weaponLocations[1].position, weaponLocations[1].rotation);
                 weapon.transform.parent = projectileHolder;
                 weapon.Emit(1);
                 rightHasFired = false;
@@ -132,22 +148,6 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    /*private void xMovement()
-    {
-        float xThrow = CrossPlatformInputManager.GetAxis("Horizontal");
-        float xOffsetThisFrame = speed * xThrow * Time.deltaTime;
-        float rawNewXPos = transform.localPosition.x + xOffsetThisFrame;
-        transform.localPosition = new Vector3(Mathf.Clamp(rawNewXPos, -xRange, xRange), transform.localPosition.y, transform.localPosition.z);
-    }
-
-    private void yMovement()
-    {
-        float yThrow = CrossPlatformInputManager.GetAxis("Vertical");
-        float yOffsetThisFrame = speed * yThrow * Time.deltaTime;
-        float rawNewyPos = transform.localPosition.y + yOffsetThisFrame;
-        transform.localPosition = new Vector3(transform.localPosition.x, Mathf.Clamp(rawNewyPos, -yRange, yRange), transform.localPosition.z);
-    }*/ //seperate methods for handling horizontal & vertical movement
 
     private void Movement()
     {
@@ -189,17 +189,30 @@ public class PlayerController : MonoBehaviour
         FindObjectOfType<HealthDisplay>().UpdateHealthDisplay(playerHealth);
         if(playerHealth>0)
         {
-            //hurt animation/sound + controls disabled for a short time
+            if (firingCoroutine != null)
+                StopCoroutine(firingCoroutine);
+            StartCoroutine(HurtCooldown());
+
+            //hurt animation/sound 
         }
         else
             StartDeathSequence();
+    }
+
+    private IEnumerator HurtCooldown()
+    {
+        controlEnabled = false;
+        yield return new WaitForSeconds(hurtCooldown);
+        controlEnabled = true;
+
     }
 
     private void StartDeathSequence()
     {
         controlEnabled = false;
         deathFX.SetActive(true);
-        FindObjectOfType<LevelLoader>().RestartLevel();
+        FindObjectOfType<ResultScreenHandler>().HasWon(false);
+        Destroy(gameObject, deathDelay);
     }
 
     public int GetPlayerHealth()

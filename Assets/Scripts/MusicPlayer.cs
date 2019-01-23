@@ -5,7 +5,11 @@ using UnityEngine;
 public class MusicPlayer : MonoBehaviour {
 
     [SerializeField] AudioClip[] levelMusic;
-    private AudioSource myAudioSource;
+    [SerializeField] AudioClip winSound, loseSound;
+    [SerializeField] float soundVolume = .5f;
+
+    private AudioSource musicPlayer;
+    private AudioSource soundPlayer;
 
     private void Awake()
     {
@@ -22,15 +26,30 @@ public class MusicPlayer : MonoBehaviour {
     }
     private void Start()
     {
-        myAudioSource = GetComponent<AudioSource>();
+        musicPlayer = GetComponents<AudioSource>()[0];
+        soundPlayer = GetComponents<AudioSource>()[0];
+
         MusicChanger(FindObjectOfType<LevelLoader>().GetSceneIndex());
+    }
+
+    public void ResultSound(bool hasWon)
+    {
+        Debug.Log("speelt result geluidje: " + hasWon);
+        if (hasWon)
+            soundPlayer.clip = winSound;
+        else
+            soundPlayer.clip = loseSound;
+        soundPlayer.PlayOneShot(soundPlayer.clip);
     }
 
     public void MusicChanger(int levelNumber) //changes music based on scene# being loaded
     {
-        myAudioSource.clip = levelMusic[levelNumber];
-        myAudioSource.Play();
-
+        try
+        {
+            musicPlayer.clip = levelMusic[levelNumber];
+            musicPlayer.Play();
+        }
+        catch { Debug.LogError("Add more level songs in the music player object"); }
         /*switch (levelNumber)
         {
             case 0:
