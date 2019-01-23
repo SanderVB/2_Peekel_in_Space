@@ -6,15 +6,16 @@ using System;
 
 public class CommunicationHandler : MonoBehaviour
 {
-    bool isActive = false;
-    bool isFirstMessage = true;
     [SerializeField] TextMeshProUGUI textToChange;
     [SerializeField] CommunicationMessage firstMessage;
     [SerializeField][Range(0,1)] float messageVolume = .5f;
     [SerializeField] float writeTime = .05f;
+
     CommunicationMessage messageHolder;
     AudioSource messageAudio;
     AudioClip audioHolder;
+    bool isFirstMessage = true;
+    //bool isActive = false;
 
     private void OnEnable()
     {
@@ -64,9 +65,9 @@ public class CommunicationHandler : MonoBehaviour
     }
 
     //these two methods are obsolete since I'm using timeline now, keeping them around for now
-    public IEnumerator MessageDisplayer(string message, float waitTime)
+    /*public IEnumerator MessageDisplayer(string message, float waitTime)
     {
-        //MessageChanger(message);
+        MessageChanger(message);
         ActivitySwitcher();
         yield return new WaitForSeconds(waitTime);
         ActivitySwitcher();
@@ -76,5 +77,5 @@ public class CommunicationHandler : MonoBehaviour
     {
         this.gameObject.SetActive(!isActive);
         isActive = !isActive;
-    }
+    }*/
 }
