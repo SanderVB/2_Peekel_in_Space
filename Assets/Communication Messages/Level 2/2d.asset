@@ -9,8 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a67b032b3eda44f9c89d6bded82694, type: 3}
-  m_Name: 1c
+  m_Name: 2d
   m_EditorClassIdentifier: 
-  messageText: Ik ga helemaal loooooos
-  nextMessage: {fileID: 11400000, guid: 2444c462114893d4384dfc27452af1ef, type: 2}
-  messageSound: {fileID: 8300000, guid: 57c1c33fab0e09d4bacff60ebf192960, type: 3}
+  messageText: Hier kan ik me echt, laten gaan!
+  nextMessage: {fileID: 11400000, guid: a0bc80f843fa0f74088f413c54fb3c10, type: 2}
+  messageSound: {fileID: 8300000, guid: f56901830f81da3429a5475752862be1, type: 3}

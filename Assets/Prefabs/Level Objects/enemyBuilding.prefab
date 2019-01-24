@@ -860,8 +860,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c0db78c6dd43274e9e9908bf11a2255, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 10
-  destroyTimer: 2
+  health: 25
+  destroyTimer: 3
   enemyValue: 5000
   deathEffect: {fileID: 1448565795874298, guid: b3beabea24d85f94cbd383f4705190a5,
     type: 2}

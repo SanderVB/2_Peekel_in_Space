@@ -9,8 +9,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 75a67b032b3eda44f9c89d6bded82694, type: 3}
-  m_Name: 1b
+  m_Name: 2a
   m_EditorClassIdentifier: 
-  messageText: Superster bij de trooohooos
-  nextMessage: {fileID: 11400000, guid: 91010849c8419ae47bfd33db1db986a0, type: 2}
-  messageSound: {fileID: 8300000, guid: 6d61a3507a368bf46ae0de10de0d3250, type: 3}
+  messageText: EEEERIK PEEEEKEL
+  nextMessage: {fileID: 11400000, guid: 2192772a52724f74dbeada3c6c162854, type: 2}
+  messageSound: {fileID: 8300000, guid: 7db9d3a62f6372140927a1757c6af485, type: 3}

@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     bool onCooldown = false;
     bool weaponIsSwitching = true;
     bool rightHasFired = false;
+    bool bossMovement = false;
 
     Coroutine firingCoroutine;
 
@@ -191,23 +192,22 @@ public class PlayerController : MonoBehaviour
         {
             if (firingCoroutine != null)
                 StopCoroutine(firingCoroutine);
-            StartCoroutine(HurtCooldown());
-
-            //hurt animation/sound 
+            StartCoroutine(HurtSequence());
         }
         else
             StartDeathSequence();
     }
 
-    private IEnumerator HurtCooldown()
+    private IEnumerator HurtSequence()
     {
         controlEnabled = false;
+        hurtFX.SetActive(true);
         yield return new WaitForSeconds(hurtCooldown);
         controlEnabled = true;
-
+        hurtFX.SetActive(false);
     }
 
-    private void StartDeathSequence()
+    public void StartDeathSequence()
     {
         controlEnabled = false;
         deathFX.SetActive(true);
@@ -228,5 +228,11 @@ public class PlayerController : MonoBehaviour
     public int GetWeaponSelected()
     {
         return selectedWeapon;
+    }
+
+    public void BossMovementSwitcher()
+    {
+        bossMovement = !bossMovement;
+        GetComponentInParent<BetterWaypointFollower>().enabled = !bossMovement;
     }
 }
