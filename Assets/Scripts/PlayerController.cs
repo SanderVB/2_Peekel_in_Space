@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Fire1") && !onCooldown && controlEnabled)
         {
             onCooldown = true;
-            firingCoroutine = StartCoroutine(FirePlasmaContiniously());
+            firingCoroutine = StartCoroutine(FireWeaponContiniously());
         }
         else if (Input.GetButtonUp("Fire1") || !controlEnabled)
         {
@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator FirePlasmaContiniously() //written for 2 weapon placements firing one by one, needs rewrite if more/less
+    IEnumerator FireWeaponContiniously() //written for 2 weapon placements firing one by one, needs rewrite if more/less
     {
         while (true)
         {
